@@ -1,4 +1,4 @@
-## Advanced Lane Finding Project
+﻿## Advanced Lane Finding Project
 
 ---
 
@@ -30,9 +30,8 @@ The goals / steps of this project are the following:
 
 ### Camera Calibration
 
-#### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for this step is located in `./@@@@@/camCalibrate.py`. There is one function called `camCalibrate()`
+The code for this step is located in `./camCalibrate.py`. There is one function called `camCalibrate()`
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
@@ -46,7 +45,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ### Color Transforms and Gradients
 
-The code for this step is located in `./@@@@@/thresholder.py`.  In this code there are 4 different funtions (`abs_sobel_thresh , mag_threshold, dir_threshold, hls_threshold`), for generate a binary image with different methods. And one function for combining these methods and produce a result image. Here's an example of my output for this step.
+The code for this step is located in `./thresholder.py`.  In this code there are 4 different funtions (`abs_sobel_thresh , mag_threshold, dir_threshold, hls_threshold`), for generate a binary image with different methods. And one function for combining these methods and produce a result image. Here's an example of my output for this step.
 
 ![alt text][image2]
 
@@ -142,8 +141,38 @@ For center position i just finding the midpoint of the left-right line and take 
 Before drawing the lines, I'm checking these:
 
 * Checking that they have similar curvature.
+
+        diff_cr = np.absolute(right_km_cr-left_km_cr)
+        if diff_cr>thresh1:
+            print("FAİLED - no similir left-right  left: %f  right: %f  diff:  %f"%(left_km_cr,right_km_cr,diff_cr))
+            return False
+
 * Checking the new curvature is similar to the average_curv.
-* Checking that they are separated by approximately the right distance horizontally.
+
+
+        weights = np.arange(1,len(l_radius_list)+1)/len(l_radius_list)
+        left_avg =np.average(l_radius_list,0,weights[-len(l_radius_list):])/1000
+        right_avg =np.average(r_radius_list,0,weights[-len(l_radius_list):])/1000
+
+        left_diff = np.absolute(left_km_cr-left_avg)
+        right_diff = np.absolute(right_km_cr-right_avg)
+        
+        # also check the last and new curv differences.
+        last_diff_l = np.absolute((l_radius_list[-1]/1000)-left_km_cr)
+        last_diff_r = np.absolute((r_radius_list[-1]/1000)-right_km_cr)
+        
+        if left_diff>thresh2 or right_diff>thresh2 or last_diff_l>thresh2 or last_diff_r>thresh2:
+            return False
+
+
+* Checking that they are separated by approximately the right distance horizontally. (max:905 - min:123 distance between left-right)
+
+        diff_list = (right_points-left_points)
+        check = ((diff_list>905) | (diff_list<123))
+        outlier = diff_list[check]
+        if len(outlier)>0:
+            print("FAİLED - not parallel / num of outliar: %d"%(len(outlier)))
+            return False
 
 
 ### Draw Lane - Result
@@ -155,13 +184,14 @@ Here is an example of my result on a test image:
 ---
 
 
-### Video
+### Video Results
 
 
-Here's a [link to my video result](./project_video.mp4)
+Here's the project_video result [link to my video result](./project_video-result.mp4)
+
+Here's the challenge_video result [link to my video result](./challenge_video-result.mp4)
 
 ---
 
-### Discussion
 
  
