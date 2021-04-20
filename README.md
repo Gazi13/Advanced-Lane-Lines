@@ -1,5 +1,11 @@
 ﻿## Advanced Lane Finding Project
 
+
+<center><h2> Result </h2> </center>
+<p align="center">
+  <a href="https://youtu.be/kERzaAkCEa8"><img src="output_images/result.gif" /><a>
+</p>
+
 ---
 
 **Overview**
@@ -22,7 +28,7 @@ The goals / steps of this project are the following:
 [image3]: ./output_images/perspective.png "Perspective Transformation"
 [image4]: ./output_images/findpixel1.png "Find Pixel"
 [image5]: ./output_images/radiusFormula.png "Curvature"
-[image6]: ./output_images/result.png "Result"
+[image6]: ./output_images/result.gif "Result"
 [video1]: ./output_videos/project_video-result.mp4 "Video"
 [video2]: ./output_vidoes/challenge_video-result.mp4 "Video"
 
@@ -188,7 +194,7 @@ Here is an example of my result on a test image:
 ### Video Results
 
 
-Here's the project_video result [link to my video result](./output_videos/project_video-result.mp4)
+Here's the project_video result [link to my video result](https://youtu.be/kERzaAkCEa8)
 
 Here's the challenge_video result [link to my video result](./output_videos/challenge_video-result.mp4)
 
